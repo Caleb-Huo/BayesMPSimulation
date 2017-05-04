@@ -30,7 +30,10 @@ simu.data.randomeffect <- function(K = 10, N = 50, G = 10000, opdirectionRate = 
     }
     truth = truthFixWithDirection
     truth[!truthSelection] = 0
-    return(list(data = result, truth = truth))
+	controlLabel = 1:N
+	caseLabel = (1:N) + N
+	
+    return(list(data = result, truth = truth, controlLabel=controlLabel, caseLabel=caseLabel))
 }
 
 
