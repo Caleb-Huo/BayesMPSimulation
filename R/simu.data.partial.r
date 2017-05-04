@@ -37,6 +37,8 @@ simu.data.partial <- function(K = 10, N = 50, G = 10000, comb = c(0.02, 0.02, 0.
     }
     # discordant(5,5)
     
+    labels = NULL
+	
     functions <- c(homoConcordant, studySpecific, partialStudySpecific, discordant)[typeselection]
     
     DEtype = character(G)
@@ -69,9 +71,15 @@ simu.data.partial <- function(K = 10, N = 50, G = 10000, comb = c(0.02, 0.02, 0.
         mu.i <- mu[, i]
         data0[, (1:N) + N] <- data0[, (1:N) + N] + mu.i
         result[[i]] <- data0
+		
+        controlLabel = 1:N
+        caseLabel = (1:N) + N
+        
+        labels[[i]] <- list(controlLabel = controlLabel, caseLabel = caseLabel)
+		
     }
     truth = truthFixWithDirection
     
-    return(list(data = result, truth = truth, DEtype = DEtype))
+    return(list(data = result, truth = truth, DEtype = DEtype, labels = labels))
 }
 
