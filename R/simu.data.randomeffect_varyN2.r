@@ -2,6 +2,8 @@
 simu.data.randomeffect_varyN2 <- function(K = 10, N1 = rep(50, K), N2 = rep(50, K), G = 10000, opdirectionRate = 0.01, 
     g = round(G * 0.1), p = rep(1/K, K), sigma = 1, sigmaRandom = 0.01, rho = 0.5, clust.size = 20, n.clust = 200, 
     rho.prior = 0.5, df.prior = clust.size * 3) {
+
+	labels = NULL		
     truthFix = sample(c(-1, 1), G, replace = TRUE)
     # mufix = runif(G , a, b) * truthFix
     mufix = rtruncnorm(G, a = 0.5, b = Inf, mean = 1, sd = 1)
@@ -28,9 +30,14 @@ simu.data.randomeffect_varyN2 <- function(K = 10, N1 = rep(50, K), N2 = rep(50, 
         mu.i[!truthSelection[, i]] <- 0
         data0[, (1:N2[i]) + N1[i]] <- data0[, (1:N2[i]) + N1[i]] + mu.i
         result[[i]] <- data0
+		
+        controlLabel = 1:N1[i]
+        caseLabel = (1:N2[i]) + N1[i]        
+        labels[[i]] <- list(controlLabel = controlLabel, caseLabel = caseLabel)
+		
     }
     truth = truthFixWithDirection
     truth[!truthSelection] = 0
-    return(list(data = result, truth = truth))
+    return(list(data = result, truth = truth, labels = labels))
 }
 
